@@ -5,6 +5,7 @@ const OpenAI = require('openai');
 dotenv.config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
 const configFile = '.fine-tune-config.json';
 
 // Helper: Read Config
@@ -42,7 +43,8 @@ async function main() {
     return;
   }
 
-  const response = await openai.createCompletion(model, {
+  const response = await openai.chat.completions.create({
+    model,
     messages: [
       {
         role: 'system',
