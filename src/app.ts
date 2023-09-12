@@ -4,7 +4,6 @@ import { ignoreOld, sequentialize } from 'grammy-middlewares';
 import { run } from '@grammyjs/runner';
 import attachUser from '@/middlewares/attachUser';
 import bot from '@/helpers/bot';
-import handleMessage from '@/handlers/handleMessage';
 import handleQuestion from './handlers/handleQuestion';
 
 async function runApp() {

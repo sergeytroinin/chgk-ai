@@ -1,7 +1,7 @@
 {
-  "name": "telegram-bot-starter",
+  "name": "chgk-ai",
   "version": "1.0.0",
-  "description": "Telegram bot starter based on grammY",
+  "description": "Project to fine-tune GPT-3.5 for CHGK and run it through telegram bot",
   "main": "dist/app.js",
   "license": "MIT",
   "scripts": {
@@ -27,8 +27,8 @@
     "grammy-middlewares": "1.0.11",
     "module-alias": "2.2.3",
     "source-map-support": "0.5.21",
-    "node-fetch": "^3.3.2",
-    "openai": "^4.6.0",
+    "node-fetch": "3.3.2",
+    "openai": "4.6.0",
     "puppeteer": "^21.1.1"
   },
   "devDependencies": {
