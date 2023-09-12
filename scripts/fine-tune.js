@@ -1,12 +1,18 @@
 const fs = require('fs');
 const crypto = require('crypto');
+const path = require('path');
 const dotenv = require('dotenv');
 const OpenAI = require('openai');
 
 dotenv.config();
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const configFile = '.fine-tune-config.json';
+const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
+const configFile = path.join(__dirname, '../data', '.fine-tune-config.json');
+const fineTuningDataFile = path.join(
+  __dirname,
+  '../data',
+  'fine_tuning_data.jsonl'
+);
 
 // Helper: Read Config
 const readConfig = () => {
@@ -29,7 +35,7 @@ const hashFile = (filePath) => {
 
 async function main() {
   const config = readConfig();
-  const fileHash = hashFile('fine_tuning_data.jsonl');
+  const fileHash = hashFile(fineTuningDataFile);
 
   if (config[fileHash] && config[fileHash].status !== 'succeeded') {
     console.log('Existing job found, polling status...');
@@ -46,7 +52,7 @@ async function main() {
 
   // Upload File
   const fileUpload = await openai.files.create({
-    file: fs.createReadStream('fine_tuning_data.jsonl'),
+    file: fs.createReadStream(fineTuningDataFile),
     purpose: 'fine-tune',
   });
   const trainingFileId = fileUpload.id;
@@ -108,7 +114,7 @@ const pollStatus = (jobId, config, fileHash) => {
 
       console.log(`Job completed. Status: ${status}`);
     }
-  }, 5000);
+  }, 20000);
 };
 
 main().catch((err) => console.error(err));

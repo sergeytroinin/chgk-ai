@@ -1,0 +1,18 @@
+version: '3'
+services:
+  your-app:
+    build: .
+    env_file:
+      - ./.env
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
+
+  mongo:
+    build: ./mongo-setup
+    ports:
+      - '27017:27017'
+
+volumes:
+  mongo-data:

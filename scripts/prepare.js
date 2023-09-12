@@ -1,5 +1,8 @@
 const fs = require('fs');
-const writeStream = fs.createWriteStream('fine_tuning_data.jsonl');
+const path = require('path');
+const writeStream = fs.createWriteStream(
+  path.join(__dirname, '../data', 'fine_tuning_data.jsonl')
+);
 
 const maxQuestions = process.argv[2] || 100;
 
@@ -8,7 +11,9 @@ if (isNaN(maxQuestions)) {
   process.exit(1);
 }
 
-const originalData = JSON.parse(fs.readFileSync('parsed_data.json'));
+const originalData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../data', 'parsed_data.json'))
+);
 let counter = 0;
 
 originalData.forEach((pkg) => {
