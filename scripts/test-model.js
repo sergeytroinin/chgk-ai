@@ -1,12 +1,13 @@
 const fs = require('fs');
 const dotenv = require('dotenv');
+const path = require('path');
 const OpenAI = require('openai');
 
 dotenv.config();
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
 
-const configFile = '.fine-tune-config.json';
+const configFile = path.join(__dirname, '../data', '.fine-tune-config.json');
 
 // Helper: Read Config
 const readConfig = () => {
@@ -38,6 +39,8 @@ async function main() {
   const config = readConfig();
   const model = getLatestModel(config);
 
+  console.log(model);
+
   if (!model) {
     console.log('No fine-tuned models available.');
     return;
@@ -48,8 +51,10 @@ async function main() {
     messages: [
       {
         role: 'system',
-        content:
-          'The assistant is trained to generate quiz questions similar to CHGK.',
+        content: `The assistant is trained to generate quiz questions similar to What?Where?When? game.
+          Generate trivia questions for a game of "What? Where? When?" These questions should be complex and open-ended, suitable for a team to discuss. 
+          Cover topics like history, science, art, and geography. Questions should require deductive reasoning and not be easily answerable with a quick internet search.
+          `,
       },
       { role: 'user', content: 'Придумай мне вопрос ЧГК' },
     ],

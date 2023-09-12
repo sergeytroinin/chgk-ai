@@ -1,18 +1,53 @@
 {
   "name": "chgk-ai",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Project to fine-tune GPT-3.5 for CHGK and run it through telegram bot",
+  "main": "dist/app.js",
+  "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "develop": "tsc-watch --skipLibCheck --onSuccess 'node dist/app.js'",
+    "build": "tsc --skipLibCheck",
+    "pretty": "prettier --check src",
+    "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx,json src",
+    "start": "node dist/app.js",
+    "fetch": "node scripts/fetch.js",
+    "prepare-data": "node scripts/prepare.js",
+    "fine-tune": "node scripts/fine-tune.js",
+    "test-model": "node scripts/test-model.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1",
-    "node-fetch": "^3.3.2",
-    "openai": "^4.6.0",
+    "@grammyjs/runner": "2.0.3",
+    "@prisma/client": "4.15.0",
+    "@remix-run/eslint-config": "1.19.3",
+    "axios": "1.5.0",
+    "dotenv": "16.3.1",
+    "envalid": "7.3.1",
+    "form-data": "4.0.0",
+    "grammy": "1.18.1",
+    "grammy-middlewares": "1.0.11",
+    "module-alias": "2.2.3",
+    "source-map-support": "0.5.21",
+    "node-fetch": "3.3.2",
+    "openai": "4.6.0",
     "puppeteer": "^21.1.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "4.0.5",
+    "@types/node": "16.11.12",
+    "@typescript-eslint/eslint-plugin": "5.6.0",
+    "@typescript-eslint/parser": "5.6.0",
+    "eslint": "8.4.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-no-relative-import-paths": "1.0.8",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-sort-imports-es6-autofix": "0.6.0",
+    "prettier": "2.5.1",
+    "tsc-watch": "4.5.0",
+    "typescript": "4.5.2"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   }
 }

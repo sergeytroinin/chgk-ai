@@ -1,20 +1,65 @@
-## Setup
+# Installation and local launch
 
-### Install dependencies
+1. Rename `.env.sample` to `.env` and fill it with your data
+2. Run `docker-compose up -d --build`
+3. You're breathtaking!
 
-```bash
-  npm i
+# Deploying to Fly.io
+
+## Fly Setup
+
+1. [Install `flyctl`](https://fly.io/docs/getting-started/installing-flyctl/)
+
+2. Sign up and log in to Fly
+
+```sh
+flyctl auth signup
 ```
 
-### Prepare .env file
+3. Setup Fly. It might ask if you want to deploy, say no since you haven't built the app yet.
+4. Set all the secrets in `.env` as Fly secrets
 
-```bash
-  cp .env.example .env
+```sh
+flyctl secrets set TG_TOKEN=YOUR_TOKEN
+flyctl secrets set DATABASE_URL=YOUR_MONGO_URL
+flyctl secrets set OPEN_AI_API_KEY=YOUR_OPEN_AI_API_KEY
 ```
 
-Add you OpenAI API key to the .env file
+5. Deploy the app
 
-## Scrapping documentations
+```sh
+flyctl deploy
+```
+
+6. Make sure, that you have only one machine running to avoid problems with multiple instances of the bot
+
+```sh
+flyctl scale count 1
+```
+
+And you should be good to go!
+
+# Setup CI with GitHub Actions
+
+1. Get a Fly API token by running
+
+```sh
+flyctl auth token
+```
+
+2. Add FLY_API_TOKEN to your repository secrets
+3. Test it by pushing a commit to your repository
+
+# Environment variables
+
+- `TG_TOKEN` — Telegram bot token
+- `DATABASE_URL` — URL of the mongo database
+
+Also, please, consider looking at `.env.sample`.
+
+## Fine-tuning
+
+## Scrapping
 
 ### Goals
 
@@ -34,10 +79,10 @@ Add you OpenAI API key to the .env file
 ### How to run
 
 ```bash
-  node scrape-data.js [NUMBER OF PAGES TO SCRAPE]
+  npm run fetch [NUMBER OF PACKAGES TO FETCH]
 ```
 
-## Training documentations
+## Fine-tuning
 
 ### Goals
 
@@ -48,13 +93,13 @@ Add you OpenAI API key to the .env file
 ### How to run
 
 ```bash
-  node prepare-data.js [NUMBER OF QUESTIONS TO INCLUDE IN THE DATASET]
+  npm run prepare-data [NUMBER OF QUESTIONS TO INCLUDE IN THE DATASET]
 
-  node fine-tune-model.js
+  npm run fine-tune // this one can take quite some time
 ```
 
 Test the model:
 
 ```bash
-  node test-model.js
+  npm run test-model
 ```
