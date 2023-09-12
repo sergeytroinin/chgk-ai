@@ -8,6 +8,17 @@ if (isNaN(totalPackages)) {
   process.exit(1);
 }
 
+const isValid = (question) => {
+  let isValid = true;  
+  const banned = ['pic', '[', 'раздатка', 'раздаточный', 'разминочный', 'дуплет', '1.', '1)'];
+  banned.forEach(word => {
+    if (question.trim().includes(word)) {
+      isValid = false;
+    }
+  });
+  return isValid;
+};
+
 (async () => {
   const allData = [];
 
@@ -27,7 +38,7 @@ if (isNaN(totalPackages)) {
     tours.forEach(tour => {
       tour.questions.forEach(question => {
         if (!questions.find(q => q.text === question.question)) {
-          if (question.comments && !question.question.includes('pic') && !question.question.includes('раздатка') && !question.question.includes('Разминочный') && !question.question.includes('[')) {
+          if (question.comments && isValid(question.question)) {
             if (question.number > 0) {
               questions.push({
                 text: question.question,
